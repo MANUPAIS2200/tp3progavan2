@@ -30,6 +30,10 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Tp3progavan2.NoActionBar" />
+
+        <activity android:name=".RegistroUsuarioActivity"></activity>
     </application>
+
+
 
 </manifest>

@@ -27,5 +27,10 @@ public class LoginActivity extends AppCompatActivity {
                 finish(); // Termina la actividad de login
             }
         });
+
+    }
+    public void activity_registro_usuario(View view) {
+        Intent intent = new Intent(this, RegistroUsuarioActivity.class);
+        startActivity(intent);
     }
 }
