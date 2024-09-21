@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.widget.Button;
 
 public class RegistroUsuarioActivity extends AppCompatActivity {
     @Override
@@ -19,6 +20,14 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registro_usuario);
+        Button btnAceptar = findViewById(R.id.btnAceptar);
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegistrarUsuario();
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -27,7 +36,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
 }
 
-    public void RegistrarUsuario(View view) {
+    public void RegistrarUsuario() {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administration", null, 1);
         SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
 
@@ -43,22 +52,28 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         if (!name.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !pass2.isEmpty()) {
             if (pass.equals(pass2)) {
-                Cursor fila = BaseDeDatos.rawQuery("select * from usuarios where email =" + email, null);
+                Cursor fila = BaseDeDatos.rawQuery("select * from usuarios where email = ?", new String[]{email});
                 if (!fila.moveToFirst()) {
                     ContentValues registro = new ContentValues();
 
-                    registro.put("usuario", name);
+                    registro.put("nombre", name);
                     registro.put("email",email);
                     registro.put("password",pass);
 
-                    BaseDeDatos.insert("usuarios",null,registro);
-                    BaseDeDatos.close();
+                    long resultado = BaseDeDatos.insert("usuarios", null, registro);
+                    if (resultado != -1) {
+                        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
 
-                    et_name.setText("");
-                    et_email.setText("");
-                    et_pass.setText("");
-                    et_pass2.setText("");
-                    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                        // Limpiar los campos
+                        et_name.setText("");
+                        et_email.setText("");
+                        et_pass.setText("");
+                        et_pass2.setText("");
+                        BaseDeDatos.close();
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Error al registrar el usuario", Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     Toast.makeText(this, "El mail ya está registrado", Toast.LENGTH_SHORT).show();
@@ -72,7 +87,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Debes llenar todos lo campos", Toast.LENGTH_SHORT).show();
         }
-
+        BaseDeDatos.close();
     }
 
     public void LoginActivity(View view) {

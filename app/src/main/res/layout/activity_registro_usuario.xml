@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:hint="Nombre"
             android:textSize="18sp"
+            android:textColor="@color/black"
             android:inputType="textPersonName"
             android:layout_marginBottom="16dp"/>
 
@@ -61,6 +62,7 @@
             android:layout_height="wrap_content"
             android:hint="Correo Electrónico"
             android:textSize="18sp"
+            android:textColor="@color/black"
             android:inputType="textEmailAddress"
             android:layout_marginBottom="16dp"/>
 
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:textSize="18sp"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:layout_marginBottom="16dp"/>
 
@@ -81,6 +84,7 @@
             android:layout_height="wrap_content"
             android:hint="Repetir contraseña"
             android:textSize="18sp"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:layout_marginBottom="32dp"/>
 
