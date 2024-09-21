@@ -1,5 +1,7 @@
 package com.example.tp3progavan2;
 
+import com.example.tp3progavan2.clases.Usuario;
+import com.example.tp3progavan2.negocio.NegocioUsuario;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
+
 
 public class RegistroUsuarioActivity extends AppCompatActivity {
     @Override
@@ -37,57 +40,48 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 }
 
     public void RegistrarUsuario() {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administration", null, 1);
-        SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
+        // Instancia de la clase negocio
+        NegocioUsuario negocioUsuario = new NegocioUsuario(this);
 
-        EditText et_name = (EditText) findViewById(R.id.editTextNombre);
-        EditText et_email = (EditText) findViewById(R.id.editTextEmail);
-        EditText et_pass = (EditText) findViewById(R.id.editTextPass);
-        EditText et_pass2 = (EditText) findViewById(R.id.editTextPass2);
+        // Obtener los valores de los campos de texto
+        EditText et_name = findViewById(R.id.editTextNombre);
+        EditText et_email = findViewById(R.id.editTextEmail);
+        EditText et_pass = findViewById(R.id.editTextPass);
+        EditText et_pass2 = findViewById(R.id.editTextPass2);
 
         String name = et_name.getText().toString();
         String email = et_email.getText().toString();
         String pass = et_pass.getText().toString();
         String pass2 = et_pass2.getText().toString();
 
+        // Verificar que todos los campos estén llenos
         if (!name.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !pass2.isEmpty()) {
+            // Verificar si las contraseñas coinciden
             if (pass.equals(pass2)) {
-                Cursor fila = BaseDeDatos.rawQuery("select * from usuarios where email = ?", new String[]{email});
-                if (!fila.moveToFirst()) {
-                    ContentValues registro = new ContentValues();
+                // Crear un nuevo usuario con los datos ingresados
+                Usuario nuevoUsuario = new Usuario(name, email, pass);
 
-                    registro.put("nombre", name);
-                    registro.put("email",email);
-                    registro.put("password",pass);
+                // Intentar registrar el usuario
+                if (negocioUsuario.registrarUsuario(nuevoUsuario)) {
+                    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
 
-                    long resultado = BaseDeDatos.insert("usuarios", null, registro);
-                    if (resultado != -1) {
-                        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                    // Limpiar los campos de texto
+                    et_name.setText("");
+                    et_email.setText("");
+                    et_pass.setText("");
+                    et_pass2.setText("");
 
-                        // Limpiar los campos
-                        et_name.setText("");
-                        et_email.setText("");
-                        et_pass.setText("");
-                        et_pass2.setText("");
-                        BaseDeDatos.close();
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Error al registrar el usuario", Toast.LENGTH_SHORT).show();
-                    }
-
+                    // Cerrar la actividad actual y volver a la anterior
+                    finish();
                 } else {
-                    Toast.makeText(this, "El mail ya está registrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT).show();
                 }
-                fila.close();
-
             } else {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
             }
-
         } else {
-            Toast.makeText(this, "Debes llenar todos lo campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debes llenar todos los campos", Toast.LENGTH_SHORT).show();
         }
-        BaseDeDatos.close();
     }
 
     public void LoginActivity(View view) {
