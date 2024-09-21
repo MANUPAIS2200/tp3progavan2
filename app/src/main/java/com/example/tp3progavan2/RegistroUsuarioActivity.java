@@ -43,7 +43,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         // Instancia de la clase negocio
         NegocioUsuario negocioUsuario = new NegocioUsuario(this);
 
-        // Obtener los valores de los campos de texto
         EditText et_name = findViewById(R.id.editTextNombre);
         EditText et_email = findViewById(R.id.editTextEmail);
         EditText et_pass = findViewById(R.id.editTextPass);
@@ -54,24 +53,15 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         String pass = et_pass.getText().toString();
         String pass2 = et_pass2.getText().toString();
 
-        // Verificar que todos los campos estén llenos
         if (!name.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !pass2.isEmpty()) {
-            // Verificar si las contraseñas coinciden
             if (pass.equals(pass2)) {
-                // Crear un nuevo usuario con los datos ingresados
                 Usuario nuevoUsuario = new Usuario(name, email, pass);
-
-                // Intentar registrar el usuario
                 if (negocioUsuario.registrarUsuario(nuevoUsuario)) {
                     Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-
-                    // Limpiar los campos de texto
                     et_name.setText("");
                     et_email.setText("");
                     et_pass.setText("");
                     et_pass2.setText("");
-
-                    // Cerrar la actividad actual y volver a la anterior
                     finish();
                 } else {
                     Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT).show();
@@ -85,7 +75,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     }
 
     public void LoginActivity(View view) {
-        //Devuelve a la pantalla de LogIn (En este caso, MainActivity
         setContentView(R.layout.activity_main);
     }
 }
