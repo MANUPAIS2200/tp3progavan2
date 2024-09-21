@@ -15,21 +15,32 @@ public class NegocioUsuario {
         dbHelper = new AdminSQLiteOpenHelper(context, "administration", null, 1);
     }
 
-    public boolean verificarUsuario(String email) {
+    public boolean verificarUsuario(Usuario usuario) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Usamos '?' para evitar inyecciones SQL y asegurar la consulta
-        Cursor cursor = db.rawQuery("SELECT * FROM usuarios WHERE email = ?", new String[]{email});
+        Cursor cursor = db.rawQuery("SELECT * FROM usuarios WHERE email = ? AND nombre = ?", new String[]{usuario.getEmail(), usuario.getNombre()});
 
-        boolean existe = cursor.moveToFirst(); // Si hay algún resultado, el usuario ya existe
+        boolean existe = cursor.moveToFirst();
         cursor.close();
         db.close();
         return existe;
     }
 
+    public boolean verificarLogin(String nombre, String pass) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM usuarios WHERE nombre = ? AND password = ?", new String[]{nombre,pass});
+        boolean existe = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return existe;
+    }
+
+
+
     // Registrar un nuevo usuario
     public boolean registrarUsuario(Usuario usuario) {
-        if (!verificarUsuario(usuario.getEmail())) {
+        if (!verificarUsuario(usuario)) {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues valores = new ContentValues();

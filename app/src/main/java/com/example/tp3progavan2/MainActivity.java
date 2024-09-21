@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.tp3progavan2.clases.Usuario;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;

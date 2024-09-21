@@ -2,9 +2,6 @@ package com.example.tp3progavan2;
 
 import com.example.tp3progavan2.clases.Usuario;
 import com.example.tp3progavan2.negocio.NegocioUsuario;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -64,7 +61,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                     et_pass2.setText("");
                     finish();
                 } else {
-                    Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "El email/usuario ya está registrado", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
