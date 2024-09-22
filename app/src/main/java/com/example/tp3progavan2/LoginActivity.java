@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.tp3progavan2.clases.Usuario;
 import com.example.tp3progavan2.negocio.NegocioUsuario;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,9 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         Button buttonLogin = findViewById(R.id.buttonLogin);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

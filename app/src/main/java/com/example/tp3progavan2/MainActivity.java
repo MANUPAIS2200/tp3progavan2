@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        DrawerLayout drawer = binding.drawerLayout;
+        drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
         // Acceder al encabezado de la vista de navegación
@@ -66,10 +68,11 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
-      //  NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-      //  NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-       /// NavigationUI.setupWithNavController(navigationView, navController);
-
+        binding.getRoot().post(() -> {
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+            NavigationUI.setupWithNavController(binding.navView, navController);
+        });
       //  setContentView(R.layout.activity_main); // o el layout correspondiente
 
       FloatingActionButton fab = findViewById(R.id.fab);
@@ -84,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment_content_main), drawer) || super.onSupportNavigateUp();
     }
 
     // Método para mostrar el diálogo
