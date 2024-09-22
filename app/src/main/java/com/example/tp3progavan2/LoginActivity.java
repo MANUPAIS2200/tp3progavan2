@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("usuario", nuevologuser);
                         startActivity(intent);
                 } else {
-                        Toast.makeText(LoginActivity.this,"Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this,"Credenciales incorrectas o no registrado", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(LoginActivity.this,"Debes llenar todos los campos", Toast.LENGTH_SHORT).show();

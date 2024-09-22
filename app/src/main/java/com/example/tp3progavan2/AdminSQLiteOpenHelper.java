@@ -11,12 +11,13 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase BaseDeDatos) {
-        BaseDeDatos.execSQL("Create table usuarios(nombre text, email text, password text)");
-        BaseDeDatos.execSQL("Create table parking(idparking INTEGER PRIMARY KEY AUTOINCREMENT, matricula text, tiempo text, usuario text)");
+        BaseDeDatos.execSQL("Create table IF NOT EXISTS usuarios(nombre text, email text, password text)");
+        BaseDeDatos.execSQL("Create table IF NOT EXISTS parking(matricula text, tiempo text, usuario text, borrado text)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("Create table IF NOT EXISTS usuarios(nombre text, email text, password text)");
+        db.execSQL("Create table IF NOT EXISTS parking(matricula text, tiempo text, usuario text, borrado text)");
     }
 }

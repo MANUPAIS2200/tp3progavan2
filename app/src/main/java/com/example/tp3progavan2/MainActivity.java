@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.example.tp3progavan2.clases.Parking;
 import com.example.tp3progavan2.clases.Usuario;
+import com.example.tp3progavan2.negocio.NegocioParking;
 import com.example.tp3progavan2.negocio.NegocioUsuario;
 import com.google.android.material.navigation.NavigationView;
 
@@ -21,6 +23,7 @@ import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tp3progavan2.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
       //  setContentView(R.layout.activity_main); // o el layout correspondiente
 
       FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> mostrarDialogRegistroParqueo());
+        fab.setOnClickListener(v -> mostrarDialogRegistroParqueo(usuario));
     }
 
     @Override
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Método para mostrar el diálogo
-    public void mostrarDialogRegistroParqueo() {
+    public void mostrarDialogRegistroParqueo(Usuario usuario) {
         // Inflar el diseño del diálogo
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_registro_parqueo, null);
@@ -116,9 +119,25 @@ public class MainActivity extends AppCompatActivity {
             // Acción al presionar "Registrar"
             String matricula = nroMatricula.getText().toString();
             String tiempoRegistro = tiempo.getText().toString();
+            String nombre = usuario.getNombre();
 
-            // Aquí puedes agregar la lógica para manejar los datos registrados
-            // Ejemplo: guardar la información o validar los campos.
+            if (!matricula.isEmpty() && !tiempoRegistro.isEmpty() ) {
+                Parking parking = new Parking(matricula,tiempoRegistro,nombre,"");
+                NegocioParking negocioParking = new NegocioParking(this);
+                if (!negocioParking.verificarParking(parking)) {
+                    if (negocioParking.registrarParking(parking)) {
+                        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                        nroMatricula.setText("");
+                        tiempo.setText("");
+                    } else {
+                        Toast.makeText(this, "Error en registro", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "La matricula está parkeada", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Debes llenar todos los campos", Toast.LENGTH_SHORT).show();
+            }
 
             dialog.dismiss(); // Cerrar el diálogo
         });

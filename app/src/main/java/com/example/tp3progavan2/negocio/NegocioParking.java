@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.tp3progavan2.AdminSQLiteOpenHelper;
 import com.example.tp3progavan2.clases.Parking;
-import com.example.tp3progavan2.clases.Usuario;
 
 public class NegocioParking {
 
@@ -37,7 +36,7 @@ public class NegocioParking {
     public boolean verificarParking(Parking parking) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM parking WHERE matricula = ? AND borrado = null", new String[]{parking.getMatricula()});
+        Cursor cursor = db.rawQuery("SELECT * FROM parking WHERE matricula = ? AND borrado = ''", new String[]{parking.getMatricula()});
 
         boolean existe = cursor.moveToFirst();
         cursor.close();

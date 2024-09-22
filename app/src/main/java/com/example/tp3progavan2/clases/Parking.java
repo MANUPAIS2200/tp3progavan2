@@ -5,28 +5,18 @@ public class Parking {
 
 
 
-    public Parking(int idParking, String matricula, String tiempo, String usuario, String borrado)
+    public Parking(String matricula, String tiempo, String usuario, String borrado)
     {
-        this.IdParking = idParking;
         this.Matricula = matricula;
         this.Tiempo = tiempo;
         this.Usuario = usuario;
         this.Borrado = borrado;
     }
 
-    private int IdParking;
     private String Matricula;
     private String Tiempo;
     private String Usuario;
     private String Borrado;
-
-    public int getIdParking() {
-        return IdParking;
-    }
-
-    public void setIdParking(int idParking) {
-        IdParking = idParking;
-    }
 
     public String getMatricula() {
         return Matricula;
@@ -57,14 +47,13 @@ public class Parking {
     }
 
     public void setBorrado(String borrado) {
-        this.Usuario = borrado;
+        this.Borrado = borrado;
     }
 
     @Override
     public String toString() {
         return "Parking{" +
-                "IdParking=" + IdParking +
-                ", Matricula='" + Matricula + '\'' +
+                ", Matricula='" + Matricula +
                 ", Tiempo='" + Tiempo + '\'' +
                 ", usuario='" + Usuario + '\'' +
                 ", borrado='" + Borrado + '\'' +
