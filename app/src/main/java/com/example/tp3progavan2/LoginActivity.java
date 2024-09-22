@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (!name.isEmpty() && !pass.isEmpty()) {
                     Usuario nuevologuser = new Usuario(name, null, pass);
                     if (negocioUsuario.verificarLogin(nuevologuser.getNombre(), nuevologuser.getPass())) {
+                        nuevologuser.setEmail(negocioUsuario.obtengoMail(nuevologuser.getNombre(), nuevologuser.getPass()));
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("usuario", nuevologuser);
                         startActivity(intent);

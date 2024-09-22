@@ -57,4 +57,18 @@ public class NegocioUsuario {
     }
 
 
+    public String obtengoMail(String nombre, String pass) {
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT email FROM usuarios WHERE nombre = ? AND password = ?", new String[]{nombre,pass});
+        String email = null;
+        if (cursor.moveToFirst()) {
+            email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+        }
+        cursor.close();
+        db.close();
+        return email;
+
+    }
 }
