@@ -32,6 +32,7 @@
             android:theme="@style/Theme.Tp3progavan2.NoActionBar" />
 
         <activity android:name=".RegistroUsuarioActivity"></activity>
+        <activity android:name=".RegistroParqueoActivity"></activity>
     </application>
 
 

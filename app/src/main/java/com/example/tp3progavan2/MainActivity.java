@@ -17,7 +17,13 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.example.tp3progavan2.databinding.ActivityMainBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,9 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+      //  NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+      //  NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+       /// NavigationUI.setupWithNavController(navigationView, navController);
+
+      //  setContentView(R.layout.activity_main); // o el layout correspondiente
+
+      FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> mostrarDialogRegistroParqueo());
     }
 
     @Override
@@ -73,5 +84,43 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    // Método para mostrar el diálogo
+    public void mostrarDialogRegistroParqueo() {
+        // Inflar el diseño del diálogo
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_registro_parqueo, null);
+
+        // Obtener los elementos del layout
+        EditText nroMatricula = dialogView.findViewById(R.id.editTextNroMatricula);
+        EditText tiempo = dialogView.findViewById(R.id.editTextTiempo);
+        TextView btnCancelar = dialogView.findViewById(R.id.btnCancelar);
+        TextView btnRegistrar = dialogView.findViewById(R.id.btnRegistrar);
+
+        // Crear el diálogo
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView); // Establecer el layout inflado en el diálogo
+
+        // Mostrar el diálogo
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Configurar acciones de los botones
+        btnCancelar.setOnClickListener(v -> {
+            // Acción al presionar "Cancelar"
+            dialog.dismiss(); // Cerrar el diálogo
+        });
+
+        btnRegistrar.setOnClickListener(v -> {
+            // Acción al presionar "Registrar"
+            String matricula = nroMatricula.getText().toString();
+            String tiempoRegistro = tiempo.getText().toString();
+
+            // Aquí puedes agregar la lógica para manejar los datos registrados
+            // Ejemplo: guardar la información o validar los campos.
+
+            dialog.dismiss(); // Cerrar el diálogo
+        });
     }
 }
