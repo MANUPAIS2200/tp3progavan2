@@ -20,9 +20,13 @@
         android:id="@+id/gridViewParking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:verticalSpacing="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="88dp"
         android:horizontalSpacing="16dp"
-        android:padding="16dp" />
+        android:numColumns="2"
+        android:padding="16dp"
+        android:verticalSpacing="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
