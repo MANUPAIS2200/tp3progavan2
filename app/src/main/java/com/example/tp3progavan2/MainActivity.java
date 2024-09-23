@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
     private DrawerLayout drawer;
     private NavigationView navigationView;
     @Override
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Configurar el GridView
         GridView gridViewParking = findViewById(R.id.gridViewParking);
+        refrescarGridView(usuario.getNombre());
         NegocioParking negocioParking = new NegocioParking(this);
         List<Parking> listaParking = negocioParking.obtenerParkingsPorUsuario(usuario.getNombre());
 
@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!negocioParking.verificarParking(parking)) {
                     if (negocioParking.registrarParking(parking)) {
                         Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                        refrescarGridView(usuario.getNombre());
                         nroMatricula.setText("");
                         tiempo.setText("");
                     } else {
@@ -153,5 +154,14 @@ public class MainActivity extends AppCompatActivity {
 
             dialog.dismiss(); // Cerrar el diálogo
         });
+    }
+
+    private void refrescarGridView(String usuario) {
+        NegocioParking negocioParking = new NegocioParking(this);
+        List<Parking> listaParking = negocioParking.obtenerParkingsPorUsuario(usuario);
+        GridView gridViewParking = findViewById(R.id.gridViewParking);
+
+        ParkingAdapter adapter = new ParkingAdapter(this, listaParking);
+        gridViewParking.setAdapter(adapter);
     }
 }
