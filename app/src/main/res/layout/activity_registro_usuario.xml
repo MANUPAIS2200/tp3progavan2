@@ -9,7 +9,8 @@
     tools:context=".RegistroUsuarioActivity">
 
     <!-- Incluye el layout del AppBar -->
-    <include layout="@layout/app_bar_main" />
+    <!-- <include layout="@layout/app_bar_main" /> -->
+
 
     <!-- Contenedor LinearLayout centrado -->
     <LinearLayout
