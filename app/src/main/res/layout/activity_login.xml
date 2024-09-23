@@ -6,8 +6,16 @@
     android:layout_height="match_parent">
 
     <!-- Incluye el layout del AppBar -->
-    <include layout="@layout/app_bar_main" />
+    <!-- include layout="@layout/app_bar_main" /-->
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/red"
+        app:popupTheme="@style/Theme.Tp3progavan2.PopupOverlay" >
+
+    </androidx.appcompat.widget.Toolbar>
     <!-- Contenido centrado para la página de login -->
     <LinearLayout
         android:layout_width="match_parent"
