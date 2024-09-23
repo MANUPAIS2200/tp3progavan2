@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.tp3progavan2.clases.Parking;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 import com.example.tp3progavan2.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -43,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
+        // Configurar el GridView
+        GridView gridViewParking = findViewById(R.id.gridViewParking);
+        NegocioParking negocioParking = new NegocioParking(this);
+        List<Parking> listaParking = negocioParking.obtenerParkingsPorUsuario(usuario.getNombre());
+
+        // Configurar el adaptador para el GridView
+        ParkingAdapter adapter = new ParkingAdapter(this, listaParking);
+        gridViewParking.setAdapter(adapter);
 
         setSupportActionBar(binding.appBarMain.toolbar);
         drawer = binding.drawerLayout;

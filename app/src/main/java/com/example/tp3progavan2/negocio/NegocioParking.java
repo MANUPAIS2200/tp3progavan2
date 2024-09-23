@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.tp3progavan2.AdminSQLiteOpenHelper;
 import com.example.tp3progavan2.clases.Parking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NegocioParking {
 
     private AdminSQLiteOpenHelper dbHelper;
@@ -42,5 +45,25 @@ public class NegocioParking {
         cursor.close();
         db.close();
         return existe;
+    }
+
+    public List<Parking> obtenerParkingsPorUsuario(String usuario) {
+        List<Parking> listaParking = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT matricula, tiempo FROM parking WHERE usuario = ? AND borrado = ''", new String[]{usuario});
+
+        if (cursor.moveToFirst()) {
+            do {
+                String matricula = cursor.getString(0);
+                String tiempo = cursor.getString(1);
+                Parking parking = new Parking(matricula, tiempo, usuario, "");
+                listaParking.add(parking);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return listaParking;
     }
 }
