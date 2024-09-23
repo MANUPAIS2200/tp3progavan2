@@ -1,7 +1,7 @@
 package com.example.tp3progavan2;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.GridView;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.tp3progavan2.clases.Parking;
 import com.example.tp3progavan2.clases.Usuario;
 import com.example.tp3progavan2.negocio.NegocioParking;
-import com.example.tp3progavan2.negocio.NegocioUsuario;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -23,13 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tp3progavan2.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,14 +74,33 @@ public class MainActivity extends AppCompatActivity {
 
         // Configurar el DrawerLayout y el NavController
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
 
+        AtomicReference<NavController> navController = new AtomicReference<>();
         binding.getRoot().post(() -> {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-            NavigationUI.setupWithNavController(binding.navView, navController);
+            navController.set(Navigation.findNavController(this, R.id.nav_host_fragment_content_main));
+            NavigationUI.setupActionBarWithNavController(this, navController.get(), mAppBarConfiguration);
+            NavigationUI.setupWithNavController(binding.navView, navController.get());
+        });
+
+        binding.navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_logout) {
+                // accion de cierre de sesion.
+
+                // Redirigir al login activity
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                return true; // Retorna true si manejaste la selección
+            }
+
+            // Si no es "Cerrar sesión", dejar que NavigationUI maneje la acción
+            return NavigationUI.onNavDestinationSelected(item, navController.get()) || super.onOptionsItemSelected(item);
         });
       //  setContentView(R.layout.activity_main); // o el layout correspondiente
 

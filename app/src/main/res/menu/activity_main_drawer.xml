@@ -7,16 +7,17 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Parqueos" />
+            android:title="@string/parqueos" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Mi cuenta" />
+            android:title="@string/mi_cuenta" />
 
         <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_menu_gallery" 
-        android:title="Cerrar sesión" />
+        android:title="@string/cerrar_sesion"
+            />
 
         <!-- No encontré el icono de cerrar sesión -->
     </group>

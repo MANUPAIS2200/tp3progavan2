@@ -11,5 +11,8 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="fab_desc">Agregar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="mi_cuenta">Mi cuenta</string>
+    <string name="parqueos">Parqueos</string>
 
 </resources>
